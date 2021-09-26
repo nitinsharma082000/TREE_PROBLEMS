@@ -1,0 +1,27 @@
+//PREORDER TRAVERSAL WITHOUT RECURSION
+
+class Tree
+{
+    // Return a list containing the inorder traversal of the given tree
+    ArrayList<Integer> preOrder(Node root)
+    {
+        Node ptr;
+        
+        ArrayList<Integer> al=new ArrayList<Integer>();
+        Stack<Node> stk=new Stack<Node>();
+        stk.push(root);
+        while(!stk.isEmpty())
+        {
+            ptr=stk.pop();
+            al.add(ptr.data);
+            if(ptr.right!=null) stk.push(ptr.right);
+            if(ptr.left!=null) stk.push(ptr.left);
+            
+            
+            
+        }
+        return al;
+    }
+    
+    
+}
