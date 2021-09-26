@@ -1,0 +1,378 @@
+//TREE IMPELEMENTATION USING JAVA
+
+package pkg1;
+import java.util.*;
+
+public class Tree_Josh{
+	//node structure
+	static Tree_node root=null;
+	
+	static Queue<Tree_node> q=new LinkedList<Tree_node>();
+	public static class Tree_node
+	{
+		int data;
+		Tree_node left;
+		Tree_node right;
+		
+		Tree_node(int n)
+		{
+			data=n;
+			left=null;
+			right=null;
+		}
+	}
+	
+	
+	//insertion of node
+	
+	
+	static void insert_node(Tree_node head,int data)
+	{
+		if(head==null)
+		{
+			Tree_node newnode=new Tree_node(data);
+			root=newnode;
+		}
+		else
+		{
+			Tree_node pointer=head;
+			Tree_node addat=head;
+			while(pointer!=null)
+			{
+				addat=pointer;
+				if(data<pointer.data) 
+				{
+					pointer=pointer.left;
+				}
+				else 
+				{
+					pointer=pointer.right;
+				}
+			}
+			Tree_node newnode=new Tree_node(data);
+		   if(data>addat.data)	
+			   addat.right=newnode;
+		   else
+			   addat.left=newnode;
+		}
+	}
+
+	
+	
+	//pre_order_traversal
+	
+	
+	static void  pre_order_traversal(Tree_node tree)
+	{       
+		if(tree!=null)
+		{
+	      System.out.print(tree.data);
+		  pre_order_traversal(tree.left);
+		  pre_order_traversal(tree.right);
+		}
+	}
+	
+	//post order  traversal
+	
+	static void post_order_traversal(Tree_node tree)
+	{
+		if(tree!=null)
+		{
+			post_order_traversal(tree.left);
+			post_order_traversal(tree.right);
+			System.out.print(tree.data);
+		}
+		
+	}
+	
+	//inorder traversal 
+	static void in_order_traversal(Tree_node tree)
+	{
+		
+		if(tree!=null)
+		{
+			in_order_traversal(tree.left);
+			System.out.print(tree.data);
+			in_order_traversal(tree.right);
+		}
+	}
+	
+	//level order traversal
+	
+	static void level_order_traversal(Tree_node root)
+	{
+		
+		q.add(root);
+		Tree_node pointer=root;
+		while(!q.isEmpty())
+		{
+		
+				if(pointer.left!=null) q.add(pointer.left);
+				if(pointer.right!=null) q.add(pointer.right);
+				System.out.print(q.peek().data);
+				q.poll();
+				if(!q.isEmpty()) pointer=q.peek();
+									
+		}
+	
+	}
+	
+	
+	//search a node in a tree
+	static Tree_node search_a_node(Tree_node tree,int val)
+	{
+		
+		if(tree==null)
+			return null;
+		else if(tree.data>val)
+			return search_a_node(tree.left,val);
+		else if(tree.data<val)
+			return search_a_node(tree.right,val);
+		else return tree;
+	
+	}
+	
+	
+	
+	
+	
+	static void  delete(Tree_node tree,int delete)
+	{
+		
+		Tree_node real_node;
+		Tree_node parent=tree,pointer=tree;
+		while(pointer!=null && pointer.data!=delete)
+		{
+			parent=pointer;
+			if(delete<pointer.data)
+				pointer=pointer.left;
+			else
+				pointer=pointer.right;
+		}
+      real_node=pointer;
+		if(real_node==null)
+		{
+			System.out.println("number to be deleted not found");
+		}
+		else if(parent==pointer)
+			parent=null;
+		else if(pointer.left!=null && pointer.right!=null)
+		{
+			
+			Tree_node predecessor=largest_element(pointer.left);
+			
+			pointer.data=predecessor.data;
+			delete(pointer.left,predecessor.data);
+			
+		}
+		else if(real_node.right==null && real_node.left==null)
+		{
+			if(parent==pointer)
+				parent=null;
+			else if(parent.data<pointer.data)
+				parent.right=null;
+			else
+				parent.left=null;
+		}
+		else if(pointer.left==null)
+		{
+			if(parent==pointer)
+				parent=null;
+			
+			else if(parent.data<pointer.data)
+				parent.right=pointer.right;
+			else
+				parent.left=pointer.right;
+			
+			
+		}
+		else 
+		{
+			if(parent==pointer)
+				parent=null;
+			if(parent.data<pointer.data)
+				parent.right=pointer.left;
+			else
+				parent.left=pointer.left;
+			
+		}
+		
+		
+		
+		
+	}
+	
+	//smallest element in a tree
+	
+	static Tree_node smallest_element(Tree_node tree)
+	{
+		if(tree==null || tree.left==null)
+			return tree;
+  return smallest_element(tree.left);
+
+		
+	}
+	
+	
+	// laregest element in a tree
+	
+	static Tree_node largest_element(Tree_node tree)
+	{
+		if(tree==null || tree.right==null)
+			return tree;
+	    return largest_element(tree.right);
+		
+		
+	}
+	
+	
+	//height of tree
+	
+	static int height_of_tree(Tree_node tree)
+	{
+		if(tree==null)
+			return 0;
+		else
+		{
+			return Math.max(height_of_tree(tree.left),height_of_tree(tree.right))+1;
+			
+		}
+	}
+	
+	//number_of_nodes in a tree
+	
+	
+	static int number_of_nodes(Tree_node tree)
+	{
+		
+		if(tree==null)
+			return 0;
+		else return 1+number_of_nodes(tree.left)+number_of_nodes(tree.right);
+		
+		
+		
+	}
+	
+	
+	//number of internal nodes 
+	
+	static int internal_nodes(Tree_node tree)
+	{
+		
+		if(tree==null ) return 0;
+		
+		else if(tree.right==null)
+			return internal_nodes(tree.left);
+		
+		else if(tree.left==null)
+			return internal_nodes(tree.right);
+		
+		else if(tree.right!=null && tree.left!=null)
+			return 1+internal_nodes(tree.right)+internal_nodes(tree.left);
+			
+		else return 0;
+		
+		
+		
+		
+		
+	}
+	
+	
+	//number of external nodes in a binary tree
+	
+	static int external_nodes(Tree_node tree)
+	{
+		if(tree==null)
+			return 0;
+		else if(tree.right==null && tree.left==null) return 1;
+		
+		else
+	      return external_nodes(tree.right)+external_nodes(tree.left);
+	}
+
+	
+	
+	//mirror image of tree
+	
+	static void  mirror_image(Tree_node tree)
+	{
+		
+		Tree_node temp;
+		if(tree!=null)
+		{
+			
+          mirror_image(tree.left);
+          mirror_image(tree.right);
+          temp=tree.left;
+          tree.left=tree.right;
+          tree.right=temp;
+			
+
+		}
+		
+		
+		
+		
+	}
+	
+	
+
+	public static void main(String[] args) {
+		
+		int delete;
+		Scanner sc=new Scanner(System.in);
+		System.out.println("enter number of node values");
+		int n=sc.nextInt();
+		for(int i=1;i<=n;i++)
+		{
+			insert_node(root,sc.nextInt());
+		}
+		System.out.println("pre_order traversal");
+       pre_order_traversal(root);
+       System.out.println();
+       System.out.println("post_order traversal");
+       post_order_traversal(root);
+       System.out.println();
+       System.out.println("in_order traversal");
+       in_order_traversal(root);
+       System.out.println();
+       System.out.println("level_order traversal");
+       level_order_traversal(root);
+       
+       System.out.println();
+      
+      Tree_node smallest_element=smallest_element(root);
+      
+      if(smallest_element!=null) System.out.println("the smallest element is  "+smallest_element.data);
+      
+      System.out.println();
+      Tree_node largest_element=largest_element(root);
+      if(largest_element!=null) System.out.println("the largest element is  "+largest_element.data);
+      
+      System.out.println();
+      int height=height_of_tree(root);
+      System.out.println("height of tree is ="+height);
+      
+      System.out.println();
+      int number_nodes=number_of_nodes(root);
+      System.out.println("number of nodes in a tree is  "+number_nodes);
+      
+      System.out.println();
+      int internal_nodes=internal_nodes(root);
+      System.out.println("number of internal node  "+internal_nodes);
+      
+      System.out.println();
+      int external_nodes=external_nodes(root);
+      System.out.println("number of external nodes "+external_nodes);
+      
+      
+      System.out.println();
+      mirror_image(root);
+     
+     
+      
+    
+	}
+
+}
