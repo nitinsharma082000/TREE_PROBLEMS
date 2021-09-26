@@ -1,0 +1,32 @@
+//INORDER TRAVERSAL WITHOUT RECURSION
+
+class Solution
+{
+    // Return a list containing the inorder traversal of the given tree
+    ArrayList<Integer> inOrder(Node root)
+    {
+        Node ptr=root;
+       ArrayList<Integer> al=new ArrayList<Integer>();
+       Stack<Node> stk=new Stack<Node>();
+     
+       while(!stk.isEmpty() || ptr!=null )
+       {
+           if(ptr!=null)
+           {
+               stk.push(ptr);
+               ptr=ptr.left;
+           }
+           else
+           {
+               ptr=stk.pop();
+               
+               al.add(ptr.data);
+               ptr=ptr.right;
+           }
+        
+       }
+       return al;
+    }
+    
+    
+}
