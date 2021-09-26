@@ -1,0 +1,153 @@
+//LOWEST COMMON ANCESTOR OF ANY TWO NODE IN A TREE
+
+package pkg1;
+import java.util.*;
+
+public class Tree_Josh{
+	//node structure
+	static Tree_node root=null;
+	
+	static ArrayList<Integer> firstnode;
+	static ArrayList<Integer> secondnode;
+	
+	
+	public static class Tree_node
+	{
+		int data;
+		Tree_node left;
+		Tree_node right;
+		
+		Tree_node(int n)
+		{
+			data=n;
+			left=null;
+			right=null;
+		}
+	}
+	
+	
+	//insertion of node
+	
+	
+	static void insert_node(Tree_node head,int data)
+	{
+		if(head==null)
+		{
+			Tree_node newnode=new Tree_node(data);
+			root=newnode;
+		}
+		else
+		{
+			Tree_node pointer=head;
+			Tree_node addat=head;
+			while(pointer!=null)
+			{
+				addat=pointer;
+				if(data<pointer.data) 
+				{
+					pointer=pointer.left;
+				}
+				else 
+				{
+					pointer=pointer.right;
+				}
+			}
+			Tree_node newnode=new Tree_node(data);
+		   if(data>addat.data)	
+			   addat.right=newnode;
+		   else
+			   addat.left=newnode;
+		}
+	}
+
+
+
+//NODE TO ROOTH PATH CODE STRUCTURE
+
+
+
+
+static boolean node_to_root_path(Tree_node tree,int num,ArrayList<Integer>al)
+	{
+	
+		if(tree==null)
+			return false;
+	   
+		if(tree.data==num)
+		{
+			al.add(tree.data);
+			return true;
+		}
+		
+		
+		boolean findinleftchild=node_to_root_path(tree.left,num,al);
+		if(findinleftchild)
+		{
+			al.add(tree.data);
+			return true;
+		}
+		
+		
+		boolean findinrightchild=node_to_root_path(tree.right,num,al);
+		if(findinrightchild)
+		{
+			al.add(tree.data);
+			return true;
+		}
+		
+		
+		
+		return false;
+	}
+	
+	
+  
+  // finding LCA when noide to root path of two node is given in arraylist al and b1
+	static int lowest_common_ancestor(ArrayList<Integer>al,ArrayList<Integer>bl)
+	{
+		int index_a=al.size()-1;
+		int index_b=bl.size()-1;
+		
+		while( (index_a>=0 && index_b>=0) && (al.get(index_a)==bl.get(index_b)))
+		{
+			index_a--;
+			index_b--;
+			
+		}
+		return al.get(index_a+1);
+		
+	}
+
+
+
+
+public static void main(String[] args) {
+		
+		int delete;
+		Scanner sc=new Scanner(System.in);
+		System.out.println("enter number of node values");
+		int n=sc.nextInt();
+		for(int i=1;i<=n;i++)
+		{
+			insert_node(root,sc.nextInt());
+		}
+    
+    
+      
+    System.out.println();
+    System.out.println("enter nodes value of lowest coomon ancestor is to be find");
+    int first=sc.nextInt();
+    int second=sc.nextInt();
+    
+    firstnode=new ArrayList<Integer>();
+    secondnode=new ArrayList<Integer>();
+    node_to_root_path(root,first,firstnode);
+    node_to_root_path(root,second,secondnode);
+      int LCA=lowest_common_ancestor(firstnode,secondnode);
+      System.out.println("lowest coomon ancestor of "+first +" and "+ second+"  is  "+LCA);
+    
+    
+    }
+    }
+	
+	
