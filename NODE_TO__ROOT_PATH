@@ -1,0 +1,130 @@
+
+
+
+
+public class Tree_Josh
+{
+
+
+
+public static class Tree_node
+	{
+		int data;
+		Tree_node left;
+		Tree_node right;
+		
+		Tree_node(int n)
+		{
+			data=n;
+			left=null;
+			right=null;
+		}
+	}
+	
+	
+	//insertion of node
+	
+	
+	static void insert_node(Tree_node head,int data)
+	{
+		if(head==null)
+		{
+			Tree_node newnode=new Tree_node(data);
+			root=newnode;
+		}
+		else
+		{
+			Tree_node pointer=head;
+			Tree_node addat=head;
+			while(pointer!=null)
+			{
+				addat=pointer;
+				if(data<pointer.data) 
+				{
+					pointer=pointer.left;
+				}
+				else 
+				{
+					pointer=pointer.right;
+				}
+			}
+			Tree_node newnode=new Tree_node(data);
+		   if(data>addat.data)	
+			   addat.right=newnode;
+		   else
+			   addat.left=newnode;
+		}
+	}
+
+	
+  
+  
+	//node to root path
+	static ArrayList<Integer> path;
+	static boolean node_to_root_path(Tree_node tree,int num)
+	{
+	
+		if(tree==null)
+			return false;
+	   
+		if(tree.data==num)
+		{
+			path.add(tree.data);
+			return true;
+		}
+		
+		
+		boolean findinleftchild=node_to_root_path(tree.left,num);
+		if(findinleftchild)
+		{
+			path.add(tree.data);
+			return true;
+		}
+		
+		
+		boolean findinrightchild=node_to_root_path(tree.right,num);
+		if(findinrightchild)
+		{
+			path.add(tree.data);
+			return true;
+		}
+		
+		
+		
+		return false;
+	}
+	
+	public static void main(String[] args) {
+		
+		
+		Scanner sc=new Scanner(System.in);
+		System.out.println("enter number of node values");
+		int n=sc.nextInt();
+		for(int i=1;i<=n;i++)
+		{
+			insert_node(root,sc.nextInt());
+		}
+    
+    
+    
+     
+      System.out.println("enter a node whose root to node path is to be find");
+      int node=sc.nextInt();
+    
+     path=new ArrayList<Integer>();
+      node_to_root_path(root,node);
+      for(Integer path:path)
+      {
+    	  System.out.print(path+" -> ");
+      }
+     System.out.println("reached");
+      
+      }
+      
+      }
+    
+    
+    
+    
+    
+    
